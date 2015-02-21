@@ -1,0 +1,70 @@
+diff -ru bhoessen-penelope-08b284b059bf.orig/include/penelope/core/SolverTypes.h bhoessen-penelope-08b284b059bf/include/penelope/core/SolverTypes.h
+--- bhoessen-penelope-08b284b059bf.orig/include/penelope/core/SolverTypes.h	2015-02-21 12:28:37.573342252 +0100
++++ bhoessen-penelope-08b284b059bf/include/penelope/core/SolverTypes.h	2015-02-21 12:29:48.197344050 +0100
+@@ -51,7 +51,7 @@
+     int     x;
+ 
+     // Use this as a constructor:
+-    friend Lit mkLit(Var var, bool sign = false);
++    friend Lit mkLit(Var var, bool sign);
+ 
+     bool operator == (Lit p) const { return x == p.x; }
+     bool operator != (Lit p) const { return x != p.x; }
+@@ -59,7 +59,7 @@
+ };
+ 
+ 
+-inline  Lit  mkLit     (Var var, bool sign) { Lit p; p.x = var + var + (int)sign; return p; }
++inline  Lit  mkLit     (Var var, bool sign = false) { Lit p; p.x = var + var + (int)sign; return p; }
+ inline  Lit  operator ~(Lit p)              { Lit q; q.x = p.x ^ 1; return q; }
+ inline  Lit  operator ^(Lit p, bool b)      { Lit q; q.x = p.x ^ (unsigned int)b; return q; }
+ inline  bool sign      (Lit p)              { return p.x & 1; }
+diff -ru bhoessen-penelope-08b284b059bf.orig/include/penelope/utils/Alg.h bhoessen-penelope-08b284b059bf/include/penelope/utils/Alg.h
+--- bhoessen-penelope-08b284b059bf.orig/include/penelope/utils/Alg.h	2015-02-21 12:52:12.649378289 +0100
++++ bhoessen-penelope-08b284b059bf/include/penelope/utils/Alg.h	2015-02-21 12:52:37.261378916 +0100
+@@ -36,7 +36,7 @@
+ static inline void remove(V& ts, const T& t)
+ {
+     int j = 0;
+-    for (; j < ts.size() && ts[j] != t; j++);
++    for (; j < ts.size() && ts[j] != t; j++) { }
+     ASSERT_TRUE(j < ts.size());
+     for (; j < ts.size()-1; j++) ts[j] = ts[j+1];
+     ts.pop();
+diff -ru bhoessen-penelope-08b284b059bf.orig/include/penelope/utils/Map.h bhoessen-penelope-08b284b059bf/include/penelope/utils/Map.h
+--- bhoessen-penelope-08b284b059bf.orig/include/penelope/utils/Map.h	2015-02-21 12:52:12.649378289 +0100
++++ bhoessen-penelope-08b284b059bf/include/penelope/utils/Map.h	2015-02-21 12:53:41.001380539 +0100
+@@ -66,8 +66,8 @@
+     int        size;
+ 
+     // Don't allow copying (error prone):
+-    Map<K,D,H,E>&  operator = (Map<K,D,H,E>& other) { ASSERT_TRUE(0); }
+-                   Map        (Map<K,D,H,E>& other) { ASSERT_TRUE(0); }
++    Map<K,D,H,E>&  operator = (Map<K,D,H,E>&) { ASSERT_TRUE(0); }
++                   Map        (Map<K,D,H,E>&) { ASSERT_TRUE(0); }
+ 
+     bool    checkCap(int new_size) const { return new_size > cap; }
+ 
+@@ -155,7 +155,7 @@
+         ASSERT_TRUE(table != NULL);
+         vec<Pair>& ps = table[index(k)];
+         int j = 0;
+-        for (; j < ps.size() && !equals(ps[j].key, k); j++);
++        for (; j < ps.size() && !equals(ps[j].key, k); j++) { }
+         ASSERT_TRUE(j < ps.size());
+         ps[j] = ps.last();
+         ps.pop();
+diff -ru bhoessen-penelope-08b284b059bf.orig/include/penelope/utils/Vec.h bhoessen-penelope-08b284b059bf/include/penelope/utils/Vec.h
+--- bhoessen-penelope-08b284b059bf.orig/include/penelope/utils/Vec.h	2015-02-21 12:52:12.649378289 +0100
++++ bhoessen-penelope-08b284b059bf/include/penelope/utils/Vec.h	2015-02-21 12:53:59.489381010 +0100
+@@ -41,8 +41,8 @@
+     int cap;
+ 
+     // Don't allow copying (error prone):
+-    vec<T>&  operator = (vec<T>& other) { ASSERT_TRUE(0); return *this; }
+-             vec        (vec<T>& other) { ASSERT_TRUE(0); }
++    vec<T>&  operator = (vec<T>&) { ASSERT_TRUE(0); return *this; }
++             vec        (vec<T>&) { ASSERT_TRUE(0); }
+              
+     // Helpers for calculating next capacity:
+     static inline int  imax   (int x, int y) { int mask = (y-x) >> (sizeof(int)*8-1); return (x&mask) + (y&(~mask)); }

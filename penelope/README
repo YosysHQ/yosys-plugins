@@ -1,0 +1,18 @@
+
+Yosys Plugin: PeneLoPe SAT Solver
+=================================
+
+Warning: This is work under construction.
+
+Compile:
+--------
+
+- Make sure you have "yosys-config" in the $PATH
+
+- Run "make" in this directory
+
+Usage:
+------
+
+Run yosys with "-m penelope.so" to use the PeneLoPe SAT Solver.
+
