@@ -1,0 +1,7 @@
+*.d
+*.o
+vhdl.so
+vhdl_lexer.cc
+vhdl_parser.output
+vhdl_parser.tab.cc
+vhdl_parser.tab.h

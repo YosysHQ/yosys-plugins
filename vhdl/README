@@ -1,0 +1,2 @@
+VHDL front-end plugin, based on commit 97edbf90b8433b285534a372dcfc74b68f58a671 
+of https://github.com/SebKuzminsky/yosys/tree/vhdl-frontend.
