@@ -2687,7 +2687,7 @@ expr : signal {
 
 	} | NOT expr[expr1] {
 		log_assert($expr1 != NULL);
-		log_assert($expr1->op = EXPDATA_TYPE_AST);
+		log_assert($expr1->op == EXPDATA_TYPE_AST);
 		AstNode *not_node = new AstNode(AST_BIT_NOT);
 		not_node->children.push_back($expr1->node);
 		$expr1->node = not_node;
@@ -2732,7 +2732,7 @@ expr : signal {
 
 	} | '(' expr[expr1] ')' {
 		log_assert($expr1 != NULL);
-		log_assert($expr1->op = EXPDATA_TYPE_AST);
+		log_assert($expr1->op == EXPDATA_TYPE_AST);
 		$$ = $expr1;
 	};
 
