@@ -79,14 +79,14 @@ namespace VHDL_FRONTEND {
         bool default_nettype_wire;
         std::istream *lexin;
 
-    typedef enum {
-        DIR_IN = 0,
-        DIR_OUT = 1,
-	DIR_INOUT = 2,
-	DIR_NONE
-    } port_dir_t;
+	typedef enum {
+		DIR_IN = 0,
+		DIR_OUT = 1,
+		DIR_INOUT = 2,
+		DIR_NONE
+	} port_dir_t;
 
-    const char *port_dir_str[] = { "IN", "OUT", "INOUT" };
+	const char *port_dir_str[] = { "IN", "OUT", "INOUT" };
 
 #define NOT_IMPLEMENTED log_error("NOT IMPLEMENTED (%s:%d)\n", __FILE__, __LINE__)
 
