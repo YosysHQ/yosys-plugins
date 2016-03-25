@@ -2035,10 +2035,10 @@ with_item : expr delay WHEN wlist {
             }
 
 p_decl : rem {
-		printf("p_decl1\n");
-		$$=$1;
+		$$ = NULL;
+
 	} | rem VARIABLE s_list ':' type ';' p_decl {
-		printf("p_decl2\n");
+		NOT_IMPLEMENTED;
          // slist *sl;
          // sglist *sg, *p;
            // sl=addtxt($1,"    reg");
@@ -2057,9 +2057,9 @@ p_decl : rem {
            // }
            // sl=addtxt(sl,";\n");
            // $$=addsl(sl,$7);
-         }
-       | rem VARIABLE s_list ':' type ':' '=' expr ';' p_decl {
-		printf("p_decl3\n");
+
+	} | rem VARIABLE s_list ':' type ':' '=' expr ';' p_decl {
+		NOT_IMPLEMENTED;
          // slist *sl;
          // sglist *sg, *p;
            // sl=addtxt($1,"    reg");
@@ -2080,15 +2080,15 @@ p_decl : rem {
            // sl=addsl(sl,$8->sl);
            // sl=addtxt(sl,";\n");
            // $$=addsl(sl,$10);
-         }
-       ;
+	};
+
 
 p_body[p_body_result] : rem {
 		$$ = NULL;
 	/* 1   2     3    4  5     6     7    8     9 */
 	} | rem signal ':' '=' norem expr ';' yesrem  p_body[p_body_orig] {
 		log_assert(($p_body_orig == NULL) || ($p_body_orig->type == AST_BLOCK));
-		printf("p_body1: signal(%s) := expr\n", $signal->str.c_str());
+		NOT_IMPLEMENTED;
          // slist *sl;
            // sl=addsl($1,indents[indent]);
            // sl=addsl(sl,$2->sl);
@@ -2100,11 +2100,9 @@ p_body[p_body_result] : rem {
              // sl=addsl(sl,$6->sl);
            // sl=addtxt(sl,";\n");
            // $$=addsl(sl,$9);
-         }
        /* 1   2     3      4   5     6         7     8   */
-	| rem signal norem '<' '=' sigvalue yesrem  p_body[p_body_orig] {
+	} | rem signal norem '<' '=' sigvalue yesrem  p_body[p_body_orig] {
 		log_assert(($p_body_orig == NULL) || ($p_body_orig->type == AST_BLOCK));
-		printf("p_body2: signal(%s) <= sigvalue\n", $signal->str.c_str());
 		log_assert($sigvalue->op == EXPDATA_TYPE_AST);
 		AstNode *n = new AstNode(AST_ASSIGN_LE, $signal, $sigvalue->node);
 		if ($p_body_orig == NULL) {
@@ -2121,7 +2119,6 @@ p_body[p_body_result] : rem {
 		log_assert($p_body_if->type == AST_BLOCK);
 		log_assert(($p_body_orig == NULL) || ($p_body_orig->type == AST_BLOCK));
 		log_assert($exprc != NULL);
-		printf("p_body3: IF exprc THEN p_body elsepart END IF\n");
 
 		$p_body_result = $p_body_orig;
 		if ($p_body_result == NULL) {
@@ -2168,7 +2165,7 @@ p_body[p_body_result] : rem {
 	} | rem FOR  signal IN expr TO expr LOOP doindent p_body[p_body_internal] unindent END LOOP ';' p_body[p_body_orig] {
 		log_assert(($p_body_internal == NULL) || ($p_body_internal->type == AST_BLOCK));
 		log_assert(($p_body_orig == NULL) || ($p_body_orig->type == AST_BLOCK));
-		printf("p_body4: FOR signal IN expr TO expr LOOP p_body END LOOP\n");
+		NOT_IMPLEMENTED;
          // slist *sl;
            // sl=addsl($1,indents[indent]);
            // sl=addtxt(sl,"for (");
@@ -2192,7 +2189,7 @@ p_body[p_body_result] : rem {
 	} | rem FOR  signal IN expr DOWNTO expr LOOP doindent p_body[p_body_internal] unindent END LOOP ';' p_body[p_body_orig] {
 		log_assert(($p_body_internal == NULL) || ($p_body_internal->type == AST_BLOCK));
 		log_assert(($p_body_orig == NULL) || ($p_body_orig->type == AST_BLOCK));
-		printf("p_body5: FOR signal IN expr DOWNTO expr LOOP p_body END LOOP\n");
+		NOT_IMPLEMENTED;
          // slist *sl;
            // sl=addsl($1,indents[indent]);
            // sl=addtxt(sl,"for (");
@@ -2215,7 +2212,7 @@ p_body[p_body_result] : rem {
 /*        1   2    3      4 5       6  7   8    9      10 */
 	} | rem CASE signal IS rem cases END CASE ';' p_body[p_body_orig] {
 		log_assert(($p_body_orig == NULL) || ($p_body_orig->type == AST_BLOCK));
-		printf("p_body6: CASE signal IS cases END CASE\n");
+		NOT_IMPLEMENTED;
          // slist *sl;
            // sl=addsl($1,indents[indent]);
            // sl=addtxt(sl,"case(");
@@ -2231,14 +2228,14 @@ p_body[p_body_result] : rem {
            // $$=addsl(sl,$10);
 	} | rem EXIT ';' p_body[p_body_orig] {
 		log_assert(($p_body_orig == NULL) || ($p_body_orig->type == AST_BLOCK));
-		printf("p_body7: EXIT\n");
+		NOT_IMPLEMENTED;
          // slist *sl;
            // sl=addsl($1,indents[indent]);
            // sl=addtxt(sl,"disable;  //VHD2VL: add block name here\n");
            // $$=addsl(sl,$4);
 	} | rem NULLV ';' p_body[p_body_orig] {
 		log_assert(($p_body_orig == NULL) || ($p_body_orig->type == AST_BLOCK));
-		printf("p_body8: NULLV\n");
+		NOT_IMPLEMENTED;
          // slist *sl;
            // if($1){
              // sl=addsl($1,indents[indent]);
@@ -2275,6 +2272,7 @@ elsepart[elsepart_new] : {
 
 
 cases : WHEN wlist '=' '>' doindent p_body unindent cases {
+		log_assert(($p_body == NULL) || ($p_body->type == AST_BLOCK));
 		NOT_IMPLEMENTED;
         // slist *sl;
           // sl=addsl(indents[indent],$2);
@@ -2285,6 +2283,7 @@ cases : WHEN wlist '=' '>' doindent p_body unindent cases {
           // $$=addsl(sl,$8);
 
 	} | WHEN OTHERS '=' '>' doindent p_body unindent {
+		log_assert(($p_body == NULL) || ($p_body->type == AST_BLOCK));
 		NOT_IMPLEMENTED;
         // slist *sl;
           // sl=addtxt(indents[indent],"default : begin\n");
