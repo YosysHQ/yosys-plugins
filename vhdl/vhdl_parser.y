@@ -1,4 +1,4 @@
-// vim: set noexpandtab tabstop=8:
+// vim: set noexpandtab tabstop=8 shiftwidth=8 :
 /*
     vhd2vl v2.5
     VHDL to Verilog RTL translator
