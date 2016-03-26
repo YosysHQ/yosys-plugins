@@ -1311,37 +1311,41 @@ dir         : IN    { $$ = DIR_IN; }
             | INOUT { $$ = DIR_INOUT; }
             ;
 
-type        : BIT {
-                $$=new_vrange(tSCALAR);
-              }
-            | INTEGER RANGE expr TO expr {
-                fprintf(stderr,"Warning on line %d: integer range ignored\n",lineno);
-                $$=new_vrange(tSCALAR);
-                $$->nlo = addtxt(NULL,"0");
-                $$->nhi = addtxt(NULL,"31");
-              }
-            | INTEGER {
-                $$=new_vrange(tSCALAR);
-                $$->nlo = addtxt(NULL,"0");
-                $$->nhi = addtxt(NULL,"31");
-              }
-            | BITVECT '(' vec_range ')' {$$=$3;}
-            | NAME {
-              sglist *sg;
 
-                sg=lookup(type_list,$1);
-                if(sg)
-                  $$=sg->range;
-                else{
-                  fprintf(stderr,"Undefined type '%s' on line %d\n",$1,lineno);
-                  YYABORT;
-                }
-              }
-            ;
+type        : BIT {
+		$$=new_vrange(tSCALAR);
+
+	} | INTEGER RANGE expr TO expr {
+		NOT_IMPLEMENTED;
+                // fprintf(stderr,"Warning on line %d: integer range ignored\n",lineno);
+                // $$=new_vrange(tSCALAR);
+                // $$->nlo = addtxt(NULL,"0");
+                // $$->nhi = addtxt(NULL,"31");
+
+	} | INTEGER {
+		NOT_IMPLEMENTED;
+                // $$=new_vrange(tSCALAR);
+                // $$->nlo = addtxt(NULL,"0");
+                // $$->nhi = addtxt(NULL,"31");
+
+	} | BITVECT '(' vec_range ')' {
+		$$ = $3;
+
+	} | NAME {
+		NOT_IMPLEMENTED;
+              // sglist *sg;
+                // sg=lookup(type_list,$1);
+                // if(sg)
+                  // $$=sg->range;
+                // else{
+                  // fprintf(stderr,"Undefined type '%s' on line %d\n",$1,lineno);
+                  // YYABORT;
+                // }
+	};
+
 
 /* using expr instead of simple_expr here makes the grammar ambiguous (why?) */
 vec_range : simple_expr updown simple_expr {
-	printf("vec_range\n");
               $$=new_vrange(tVRANGE);
               $$->nhi=$1->sl;
               $$->nlo=$3->sl;
@@ -1378,25 +1382,26 @@ vec_range : simple_expr updown simple_expr {
                 finalexpr->sl = addwrap("(",finalexpr->sl,")");
                 $$->size_expr = finalexpr->sl;
               }
-            }
-          | simple_expr {
-              $$=new_vrange(tSUBSCRIPT);
-              $$->nlo=$1->sl;
-          }
-          | NAME '\'' RANGE {
-              /* lookup NAME and copy its vrange */
-              sglist *sg = NULL;
-              if((sg=lookup(io_list,$1))==NULL) {
-                sg=lookup(sig_list,$1);
-              }
-              if(sg) {
-                $$ = sg->range;
-              } else {
-                fprintf(stderr,"Undefined range \"%s'range\" on line %d\n",$1,lineno);
-                YYABORT;
-              }
-          }
-          ;
+
+	} | simple_expr {
+	      NOT_IMPLEMENTED;
+              // $$=new_vrange(tSUBSCRIPT);
+              // $$->nlo=$1->sl;
+	} | NAME '\'' RANGE {
+		NOT_IMPLEMENTED;
+              // /* lookup NAME and copy its vrange */
+              // sglist *sg = NULL;
+              // if((sg=lookup(io_list,$1))==NULL) {
+                // sg=lookup(sig_list,$1);
+              // }
+              // if(sg) {
+                // $$ = sg->range;
+              // } else {
+                // fprintf(stderr,"Undefined range \"%s'range\" on line %d\n",$1,lineno);
+                // YYABORT;
+              // }
+	};
+
 
 updown : DOWNTO {$$=-1;}
        | TO {$$=1;}
@@ -1428,9 +1433,11 @@ doindent : /* Empty */ {indent= indent < MAXINDENT ? indent + 1 : indent;}
 unindent : /* Empty */ {indent= indent > 0 ? indent - 1 : indent;}
 
 /* Declarative part of the architecture */
-a_decl[a_decl_new]    : {$$=NULL;}
-          | a_decl[a_decl_orig] SIGNAL s_list ':' type ';' rem {
-	printf("a_decl1\n");
+a_decl[a_decl_new]    : {
+		$$ = NULL;
+
+	} | a_decl[a_decl_orig] SIGNAL s_list ':' type ';' rem {
+		NOT_IMPLEMENTED;
             // sglist *sg;
             // slist *sl;
 // 
@@ -1454,7 +1461,6 @@ a_decl[a_decl_new]    : {$$=NULL;}
               // $$=addrem(sl,$7);
 
 	} | a_decl[a_decl_orig] SIGNAL s_list ':' type ':' '=' expr ';' rem {
-		printf("a_decl2\n");
 		$a_decl_new = $a_decl_orig;
 		if ($a_decl_new == NULL) {
 			$a_decl_new = new std::vector<AstNode*>;
@@ -1497,9 +1503,9 @@ a_decl[a_decl_new]    : {$$=NULL;}
               // sg->next=sig_list;
               // sig_list=$3;
               // $$=addrem(sl,$10);
-            }
-          | a_decl CONSTANT NAME ':' type ':' '=' expr ';' rem {
-	printf("a_decl3\n");
+
+	} | a_decl CONSTANT NAME ':' type ':' '=' expr ';' rem {
+		NOT_IMPLEMENTED;
             // slist * sl;
               // sl=addtxt($1,"parameter ");
               // sl=addtxt(sl,$3);
@@ -1507,9 +1513,9 @@ a_decl[a_decl_new]    : {$$=NULL;}
               // sl=addsl(sl,$8->sl);
               // sl=addtxt(sl,";");
               // $$=addrem(sl,$10);
-            }
-          | a_decl TYPE NAME IS '(' s_list ')' ';' rem {
-	printf("a_decl4\n");
+
+	} | a_decl TYPE NAME IS '(' s_list ')' ';' rem {
+		NOT_IMPLEMENTED;
             // slist *sl, *sl2;
             // sglist *p;
             // int n,k;
@@ -1548,9 +1554,9 @@ a_decl[a_decl_new]    : {$$=NULL;}
               // }
               // p->next=type_list;
               // type_list=p;
-            }
-          | a_decl TYPE NAME IS ARRAY '(' vec_range ')' OF type ';' rem {
-	printf("a_decl5\n");
+
+	} | a_decl TYPE NAME IS ARRAY '(' vec_range ')' OF type ';' rem {
+		NOT_IMPLEMENTED;
             // slist *sl=NULL;
             // sglist *p;
               // $$=addrem(sl,$12);
@@ -1561,28 +1567,36 @@ a_decl[a_decl_new]    : {$$=NULL;}
               // p->range->xlo=$7->nlo;
               // p->next=type_list;
               // type_list=p;
-            }
+
 /*           1     2          3   4      5r1   6   7       8  9r2      10   11  12 13r3 14        15  16   17      18 19r4 */
-          | a_decl COMPONENT NAME opt_is rem  opt_generic PORT nolist '(' rem portlist ')' ';' rem END COMPONENT oname ';' yeslist rem {
-	printf("a_decl6\n");
+	} | a_decl COMPONENT NAME opt_is rem  opt_generic PORT nolist '(' rem portlist ')' ';' rem END COMPONENT oname ';' yeslist rem {
+		NOT_IMPLEMENTED;
               // $$=addsl($1,$20); /* a_decl, rem4 */
               // free($3); /* NAME */
               // free($10); /* rem2 */
               // free($14);/* rem3 */
-            }
-          ;
+	};
 
-opt_generic : /* Empty */ {$$=NULL;}
-          | GENERIC nolist '(' rem genlist ')' ';' rem {
-             if (0) fprintf(stderr,"matched opt_generic\n");
-             free($4);  /* rem */
-             free($8);  /* rem */
-             $$=NULL;
-            }
-          ;
+opt_generic : /* Empty */ {
+		NOT_IMPLEMENTED;
+		// $$=NULL;
+	} | GENERIC nolist '(' rem genlist ')' ';' rem {
+		NOT_IMPLEMENTED;
+             // if (0) fprintf(stderr,"matched opt_generic\n");
+             // free($4);  /* rem */
+             // free($8);  /* rem */
+             // $$=NULL;
+	};
 
-nolist : /*Empty*/ {dolist = 0;}
-yeslist : /*Empty*/ {dolist = 1;}
+nolist : /*Empty*/ {
+	NOT_IMPLEMENTED;
+	dolist = 0;
+}
+
+yeslist : /*Empty*/ {
+	NOT_IMPLEMENTED;
+	// dolist = 1;
+}
 
 /* XXX wishlist: record comments into slist, play them back later */
 s_list[s_list_new] : NAME rem {
@@ -1618,12 +1632,10 @@ s_list[s_list_new] : NAME rem {
 };
 
 a_body[a_body_new] : rem {
-		printf("a_body0: rem\n");
-	// $$=addind($1);
-	}
+		// $$=addind($1);
+
        /* 1   2      3   4   5   6     7        8      9 */
-	| rem signal '<' '=' rem norem sigvalue yesrem a_body[a_body_orig] {
-		printf("a_body1: signal(=%s) <= sigvalue\n", $signal->str.c_str());
+	} | rem signal '<' '=' rem norem sigvalue yesrem a_body[a_body_orig] {
 		$a_body_new = $a_body_orig;
 		if ($a_body_new == NULL) {
 			$a_body_new = new std::vector<AstNode*>;
@@ -1640,9 +1652,9 @@ a_body[a_body_new] : rem {
            // sl=addsl(sl,$7);
            // sl=addtxt(sl,";\n");
            // $$=addsl(sl,$9);
-         }
-       | rem BEGN signal '<' '=' rem norem sigvalue yesrem a_body[a_body_orig] END NAME ';' {
-	printf("a_body2\n");
+
+	} | rem BEGN signal '<' '=' rem norem sigvalue yesrem a_body[a_body_orig] END NAME ';' {
+		NOT_IMPLEMENTED;
          // slist *sl;
            // sl=addsl($1,indents[indent]);
            // sl=addtxt(sl,"assign ");
@@ -1653,10 +1665,10 @@ a_body[a_body_new] : rem {
            // sl=addsl(sl,$8);
            // sl=addtxt(sl,";\n");
            // $$=addsl(sl,$10);
-         }
+
        /* 1   2     3    4    5   6       7       8   9     10     11 */
-       | rem WITH expr SELECT rem yeswith signal '<' '=' with_list a_body[a_body_orig] {
-	printf("a_body3\n");
+	} | rem WITH expr SELECT rem yeswith signal '<' '=' with_list a_body[a_body_orig] {
+		NOT_IMPLEMENTED;
          // slist *sl;
          // sglist *sg;
          // char *s;
@@ -1682,10 +1694,10 @@ a_body[a_body_new] : rem {
            // sl=addsl(sl,indents[indent]);
            // sl=addtxt(sl,"end\n\n");
            // $$=addsl(sl,$11);
-         }
+
        /* 1   2   3     4  5   6    7    8   9         10     11  12  13  14       15 */
-       | rem NAME ':' NAME rem PORT MAP '(' doindent map_list rem ')' ';' unindent a_body[a_body_orig] {
-	printf("a_body4\n");
+	} | rem NAME ':' NAME rem PORT MAP '(' doindent map_list rem ')' ';' unindent a_body[a_body_orig] {
+		NOT_IMPLEMENTED;
          // slist *sl;
            // sl=addsl($1,indents[indent]);
            // sl=addtxt(sl,$4); /* NAME2 */
@@ -1696,10 +1708,10 @@ a_body[a_body_new] : rem {
            // sl=addsl(sl,$10);  /* map_list */
            // sl=addtxt(sl,");\n\n");
            // $$=addsl(sl,$15); /* a_body */
-         }
+
        /* 1   2   3     4  5   6        7  8    9       10               11  12       13   14   15     16   17       18  19  20       21 */
-       | rem NAME ':' NAME rem GENERIC MAP '(' doindent generic_map_list ')' unindent PORT MAP '(' doindent map_list ')' ';' unindent a_body[a_body_orig] {
-	printf("a_body5\n");
+	} | rem NAME ':' NAME rem GENERIC MAP '(' doindent generic_map_list ')' unindent PORT MAP '(' doindent map_list ')' ';' unindent a_body[a_body_orig] {
+		NOT_IMPLEMENTED;
          // slist *sl;
            // sl=addsl($1,indents[indent]);
            // sl=addtxt(sl,$4); /* NAME2 (component name) */
@@ -1718,10 +1730,8 @@ a_body[a_body_new] : rem {
            // sl=addsl(sl,$17); /* map_list */
            // sl=addtxt(sl,");\n\n");
            // $$=addsl(sl,$21); /* a_body */
-         }
 
-	| optname PROCESS '(' sign_list ')' p_decl opt_is BEGN doindent p_body END PROCESS oname ';' unindent a_body[a_body_orig] {
-		printf("a_body6\n");
+         } | optname PROCESS '(' sign_list ')' p_decl opt_is BEGN doindent p_body END PROCESS oname ';' unindent a_body[a_body_orig] {
 		log_assert($p_body != NULL);
 		log_assert($p_body->type == AST_BLOCK);
 		$a_body_new = $a_body_orig;
@@ -1738,7 +1748,6 @@ a_body[a_body_new] : rem {
 		$a_body_new->insert($a_body_new->begin(), always);
 
 	} | optname PROCESS '(' sign_list ')' p_decl opt_is BEGN doindent rem IF edge THEN p_body END IF ';' END PROCESS oname ';' unindent a_body[a_body_orig] {
-		printf("a_body7\n");
 		log_assert($p_body != NULL);
 		log_assert($p_body->type == AST_BLOCK);
 
@@ -1762,6 +1771,7 @@ a_body[a_body_new] : rem {
              // sl=addsl(sl,indents[indent]);
              // sl=addtxt(sl,"end\n\n");
              // $$=addsl(sl,$23);
+
        /* 1      2        3  4          5  6       7      8     9 */
 	} | optname PROCESS '(' sign_list ')' p_decl opt_is BEGN doindent
          /* 10 11 12    13    14         15  16       17    18   19   20       21     22       23  24 25 */
@@ -1770,7 +1780,7 @@ a_body[a_body_new] : rem {
            END PROCESS oname ';' unindent a_body[a_body_orig] {
 		log_assert(($p_body_if != NULL) && ($p_body_if->type == AST_BLOCK));
 		log_assert(($p_body_elseif != NULL) && ($p_body_elseif->type == AST_BLOCK));
-	printf("a_body8\n");
+		NOT_IMPLEMENTED;
            // slist *sl;
              // if (0) fprintf(stderr,"process style 3: if then elsif then end if\n");
              // sl=add_always($1,$4,$6,1);
@@ -1791,16 +1801,16 @@ a_body[a_body_new] : rem {
              // sl=addsl(sl,indents[indent]);
              // sl=addtxt(sl,"end\n\n");
              // $$=addsl(sl,$31);
-         }
+
        /* 1      2        3  4          5  6       7      8     9 */
-       | optname PROCESS '(' sign_list ')' p_decl opt_is BEGN doindent
+	} | optname PROCESS '(' sign_list ')' p_decl opt_is BEGN doindent
          /* 10 11 12    13    14         15  16       17   18   19   20       21     22     23   24  25 26  27  28 29 */
            rem IF exprc THEN doindent p_body[p_body_if] unindent ELSE IF edge THEN doindent p_body[p_body_elseif] unindent END IF ';' END IF ';'
          /* 30      31    32 33       34   35    */
            END PROCESS oname ';' unindent a_body[a_body_orig] {
 		log_assert(($p_body_if == NULL) || ($p_body_if->type == AST_BLOCK));
 		log_assert(($p_body_elseif == NULL) || ($p_body_elseif->type == AST_BLOCK));
-	printf("a_body9\n");
+		NOT_IMPLEMENTED;
            // slist *sl;
              // if (0) fprintf(stderr,"process style 4: if then else if then end if\n");
              // sl=add_always($1,$4,$6,1);
@@ -1821,12 +1831,11 @@ a_body[a_body_new] : rem {
              // sl=addsl(sl,indents[indent]);
              // sl=addtxt(sl,"end\n\n");
              // $$=addsl(sl,$35); /* a_body */
-         }
 
        /* note vhdl does not allow an else in an if generate statement */
        /* 1       2   3          4       5       6        7     8        9   10   11  12 */
-       | gen_optname IF exprc generate  doindent a_body[a_body_orig1]  unindent endgenerate oname ';' a_body[a_body_orig2] {
-	printf("a_body10\n");
+	} | gen_optname IF exprc generate  doindent a_body[a_body_orig1]  unindent endgenerate oname ';' a_body[a_body_orig2] {
+		NOT_IMPLEMENTED;
          // slist *sl;
          // blknamelist *tname_list;
            // sl=addsl($1,indents[indent]);
@@ -1849,10 +1858,10 @@ a_body[a_body_new] : rem {
            // sl=addsl(sl,indents[indent]);
            // sl=addtxt(sl,"endgenerate\n");
            // $$=addsl(sl,$11);    /* a_body:2 */
-         }
+
        /* 1       2       3    4 5    6   7  8        9      10      11       12    13     14    15  16 */
-       | gen_optname FOR  signal IN expr TO expr generate doindent a_body[a_body_orig1]  unindent endgenerate oname ';' a_body[a_body_orig2] {
-	printf("a_body11\n");
+	} | gen_optname FOR  signal IN expr TO expr generate doindent a_body[a_body_orig1]  unindent endgenerate oname ';' a_body[a_body_orig2] {
+		NOT_IMPLEMENTED;
          // slist *sl;
          // blknamelist *tname_list;
            // sl=addsl($1,indents[indent]);
@@ -1889,10 +1898,10 @@ a_body[a_body_new] : rem {
            // sl=addsl(sl,indents[indent]);
            // sl=addtxt(sl,"endgenerate\n");
            // $$=addsl(sl,$15);    /* a_body:2 */
-         }
+
        /* 1           2       3   4   5    6     7      8        9      10      11       12    13     14    15  16 */
-       | gen_optname FOR  signal IN expr DOWNTO expr generate doindent a_body[a_body_orig1]  unindent endgenerate oname ';' a_body[a_body_orig2] {
-	printf("a_body12\n");
+	} | gen_optname FOR  signal IN expr DOWNTO expr generate doindent a_body[a_body_orig1]  unindent endgenerate oname ';' a_body[a_body_orig2] {
+		NOT_IMPLEMENTED;
          // slist *sl;
            // blknamelist* tname_list;
            // sl=addsl($1,indents[indent]);
@@ -1928,44 +1937,55 @@ a_body[a_body_new] : rem {
            // sl=addsl(sl,indents[indent]);
            // sl=addtxt(sl,"endgenerate\n");
            // $$=addsl(sl,$15);    /* a_body:2 */
-         }
-       ;
+	};
 
-oname : {$$=NULL;}
-      | NAME {free($1); $$=NULL;}
-      ;
+oname : {
+		$$=NULL;
+	} | NAME {
+		// FIXME: must match the matching name
+		free($1);
+		$$=NULL;
+	};
 
-optname : rem {$$=$1;}
-        | rem NAME ':' {$$=$1; free($2);}
+optname : rem {
+		$$ = NULL;
 
-gen_optname : rem {$$=$1;}
-        | rem NAME ':' {
-           blknamelist *tname_list;
-           tname_list = (blknamelist*)xmalloc (sizeof(blknamelist));
-           tname_list->name = (char*)xmalloc(strlen($2));
-           strcpy(tname_list->name, $2);
-           tname_list->next = blkname_list;
-           blkname_list=tname_list;
-           $$=$1;
-           free($2);
-         }
-        ;
+	} | rem NAME ':' {
+		NOT_IMPLEMENTED;
+		// $$=$1;
+		// free($2);
+	}
+
+gen_optname : rem {
+		NOT_IMPLEMENTED;
+		// $$=$1;
+
+	} | rem NAME ':' {
+	   NOT_IMPLEMENTED;
+           // blknamelist *tname_list;
+           // tname_list = (blknamelist*)xmalloc (sizeof(blknamelist));
+           // tname_list->name = (char*)xmalloc(strlen($2));
+           // strcpy(tname_list->name, $2);
+           // tname_list->next = blkname_list;
+           // blkname_list=tname_list;
+           // $$=$1;
+           // free($2);
+	};
 
 edge : '(' edge ')' {
-		$$ = $2;
+		NOT_IMPLEMENTED;
+		// $$ = $2;
 		// $$=addwrap("(",$2,")");
 
 	} | NAME '\'' EVENT AND exprc {
-		printf("edge2 name=%s EVENT\n", $NAME);
+		NOT_IMPLEMENTED;
 		// push_clkedge($5->data.sl->data.txt[0]-'0', "name'event and exprc");
 
 	} | exprc AND NAME '\'' EVENT {
-		printf("edge3 name=%s EVENT\n", $NAME);
+		NOT_IMPLEMENTED;
 		// push_clkedge($1->data.sl->data.txt[0]-'0', "exprc and name'event");
 
 	} | POSEDGE '(' NAME ')' {
-		printf("edge: posedge %s\n", $NAME);
-
 		AstNode *id = new AstNode(AST_IDENTIFIER);
 		id->str = $NAME;
 
@@ -1975,25 +1995,32 @@ edge : '(' edge ')' {
 		$$ = edge;
 
 		// push_clkedge(1, "explicit");
+
 	} | NEGEDGE '(' NAME ')' {
-		printf("edge: negedge %s\n", $NAME);
+		NOT_IMPLEMENTED;
 		// AstNode *always = new AstNode(AST_ALWAYS);
 		// push_clkedge(0, "explicit");
-	} ;
+	};
 
-yeswith : {dowith=1;}
+yeswith : {
+	NOT_IMPLEMENTED;
+	// dowith=1;
+}
 
-with_list : with_item ';' {$$=$1;}
-          | with_item ',' rem with_list {
-            slist *sl;
-              if($3){
-                sl=addsl($1,$3);
-                $$=addsl(sl,$4);
-              } else
-                $$=addsl($1,$4);
-            }
-          | expr delay WHEN OTHERS ';' {
-	printf("with_list\n");
+with_list : with_item ';' {
+		NOT_IMPLEMENTED;
+		// $$=$1;
+	} | with_item ',' rem with_list {
+		NOT_IMPLEMENTED;
+	    // slist *sl;
+	      // if($3){
+		// sl=addsl($1,$3);
+		// $$=addsl(sl,$4);
+	      // } else
+		// $$=addsl($1,$4);
+
+	} | expr delay WHEN OTHERS ';' {
+		NOT_IMPLEMENTED;
             // slist *sl;
               // sl=addtxt(indents[indent],"    default : ");
               // sl=addsl(sl,slwith);
@@ -2010,10 +2037,10 @@ with_list : with_item ';' {$$=$1;}
               // free($1);
               // delay=1;
               // $$=addtxt(sl,";\n");
-            }
+	}
 
 with_item : expr delay WHEN wlist {
-	printf("with_item\n");
+	NOT_IMPLEMENTED;
             // slist *sl;
               // sl=addtxt(indents[indent],"    ");
               // sl=addsl(sl,$4);
@@ -2032,7 +2059,7 @@ with_item : expr delay WHEN wlist {
               // free($1);
               // delay=1;
               // $$=addtxt(sl,";\n");
-            }
+	}
 
 p_decl : rem {
 		$$ = NULL;
