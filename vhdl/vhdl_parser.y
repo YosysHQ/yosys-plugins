@@ -1229,13 +1229,10 @@ genlist  : s_list ':' type ':' '=' expr rem {
 
           /* 1      2   3   4    5 */
 portlist[portlist_new]  : s_list ':' dir type rem {
-	$portlist_new = new std::vector<AstNode*>;
-	printf("portlist 1: dir=%d (%s)\n", $3, port_dir_str[$3]);
-	print_signal_list($s_list);
-	print_type($4);
-	for (auto &name: *$s_list) {
-		$portlist_new->insert($portlist_new->begin(), make_wire(name, (port_dir_t)$dir, $type));
-	}
+		$portlist_new = new std::vector<AstNode*>;
+		for (auto &name: *$s_list) {
+			$portlist_new->insert($portlist_new->begin(), make_wire(name, (port_dir_t)$dir, $type));
+		}
 
             // slist *sl;
 
@@ -1247,16 +1244,13 @@ portlist[portlist_new]  : s_list ':' dir type rem {
                 // free($5);
                 // free($4);
               // }
-            }
+
           /* 1      2   3   4    5   6   7     */
-          | s_list ':' dir type ';' rem portlist[portlist_orig] {
-	$portlist_new = $portlist_orig;
-	printf("portlist 2: dir=%d (%s), s_list=%p\n", $3, port_dir_str[$3], $s_list);
-	print_signal_list($s_list);
-	print_type($4);
-	for (auto &name: *$s_list) {
-		$portlist_new->insert($portlist_new->begin(), make_wire(name, (port_dir_t)$dir, $type));
-	}
+	} | s_list ':' dir type ';' rem portlist[portlist_orig] {
+		$portlist_new = $portlist_orig;
+		for (auto &name: *$s_list) {
+			$portlist_new->insert($portlist_new->begin(), make_wire(name, (port_dir_t)$dir, $type));
+		}
             // slist *sl;
 
               // if(dolist){
@@ -1267,13 +1261,10 @@ portlist[portlist_new]  : s_list ':' dir type rem {
                 // free($6);
                 // free($4);
               // }
-            }
           /* 1      2   3   4    5   6   7    8 */
-          | s_list ':' dir type ':' '=' expr rem {
-	$portlist_new = new std::vector<AstNode*>;
-	printf("portlist 3 FIXME: dir=%d (%s), s_list=%p\n", $3, port_dir_str[$3], $s_list);
-	print_signal_list($s_list);
-	print_type($4);
+	} | s_list ':' dir type ':' '=' expr rem {
+		$portlist_new = new std::vector<AstNode*>;
+		NOT_IMPLEMENTED;
             // slist *sl;
               // fprintf(stderr,"Warning on line %d: "
                 // "port default initialization ignored\n",lineno);
@@ -1285,13 +1276,11 @@ portlist[portlist_new]  : s_list ':' dir type rem {
                 // free($8);
                 // free($4);
               // }
-            }
+
           /* 1      2   3   4    5   6   7    8   9   10     */
-          | s_list ':' dir type ':' '=' expr ';' rem portlist[portlist_orig] {
-	$portlist_new = $portlist_orig;
-	printf("portlist 4 FIXME: dir=%d (%s) s_list=%p\n", $3, port_dir_str[$3], $s_list);
-	print_signal_list($s_list);
-	print_type($4);
+	} | s_list ':' dir type ':' '=' expr ';' rem portlist[portlist_orig] {
+		$portlist_new = $portlist_orig;
+		NOT_IMPLEMENTED;
             // slist *sl;
               // fprintf(stderr,"Warning on line %d: "
                 // "port default initialization ignored\n",lineno);
@@ -1303,8 +1292,8 @@ portlist[portlist_new]  : s_list ':' dir type rem {
                 // free($9);
                 // free($4);
               // }
-            }
-          ;
+	};
+
 
 dir         : IN    { $$ = DIR_IN; }
             | OUT   { $$ = DIR_OUT; }
