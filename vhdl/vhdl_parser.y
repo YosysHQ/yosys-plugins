@@ -1141,9 +1141,10 @@ entity:
 		current_ast_mod = NULL;
 	};
 
+
           /* 1     2  3     4   5  6    7 */
 genlist  : s_list ':' type ':' '=' expr rem {
-	printf("genlist1\n");
+		NOT_IMPLEMENTED;
           // if(dolist){
             // slist *sl;
             // sglist *p;
@@ -1162,10 +1163,10 @@ genlist  : s_list ':' type ':' '=' expr rem {
           // } else {
             // $$=NULL;
           // }
-         }
+
           /* 1     2  3     4   5  6     7  8    9 */
-         | s_list ':' type ':' '=' expr ';' rem genlist {
-	printf("genlist2\n");
+	} | s_list ':' type ':' '=' expr ';' rem genlist {
+		NOT_IMPLEMENTED;
           // if(dolist){
             // slist *sl;
             // sglist *p;
@@ -1185,9 +1186,10 @@ genlist  : s_list ':' type ':' '=' expr rem {
           // } else {
             // $$=NULL;
           // }
-         }
+
           /* 1     2  3     4   5  6 */
-         | s_list ':' type ';' rem genlist {
+	} | s_list ':' type ';' rem genlist {
+		NOT_IMPLEMENTED;
           // if(dolist){
             // slist *sl;
             // sglist *p;
@@ -1205,9 +1207,10 @@ genlist  : s_list ':' type ':' '=' expr rem {
           // } else {
             // $$=NULL;
           // }
-         }
+
           /* 1     2  3    4   */
-         | s_list ':' type rem  {
+	} | s_list ':' type rem  {
+		NOT_IMPLEMENTED;
           // if(dolist){
             // slist *sl;
             // sglist *p;
@@ -1224,8 +1227,8 @@ genlist  : s_list ':' type ':' '=' expr rem {
           // } else {
             // $$=NULL;
           // }
-         }
-        ;
+	};
+
 
           /* 1      2   3   4    5 */
 portlist[portlist_new]  : s_list ':' dir type rem {
