@@ -1016,7 +1016,6 @@ input: trad {
 
 /* Input file must contain entity declaration followed by architecture */
 trad  : rem entity rem architecture rem {
-		printf("trad: entity(%s) architecture(%s)\n", $entity->str.c_str(), $architecture->str.c_str());
 		log_assert($entity->str.compare($architecture->str) == 0);
 		$trad = $entity;
 		for (auto &i: $architecture->children) {
@@ -1028,11 +1027,9 @@ trad  : rem entity rem architecture rem {
  * - let them take care of that manually
  */
 	} | rem entity rem  {
-		printf("trad: entity\n");
 		$trad = $entity;
 
 	} | rem architecture rem {
-		printf("trad: architecture\n");
 		$trad = $architecture;
 	};
 
@@ -1065,7 +1062,6 @@ norem : /*Empty*/ {skipRem = 1;}
 yesrem : /*Empty*/ {skipRem = 0;}
 
 entity_name: ENTITY NAME {
-	printf("entity, name='%s'\n", $2);
 	AstNode *module = new AstNode(AST_MODULE);
 	module->str = $2;
 	modules[$NAME] = module;
@@ -1076,7 +1072,6 @@ entity_name: ENTITY NAME {
 entity:
 /*      1           2  3   4    5   6   7        8   9   10  11  12 */
 	entity_name IS rem PORT '(' rem portlist ')' ';' rem END opt_entity oname ';' {
-		printf("entity1 %s\n", $entity_name->str.c_str());
 		$entity = $entity_name;
 		add_portlist_wires($entity, $portlist);
 
@@ -1105,10 +1100,9 @@ entity:
               // sl=addsl(sl,$10); /* rem2 */
               // $$=addtxt(sl,"\n");
 		current_ast_mod = NULL;
-            }
+
  /*         1           2  3       4       5   6   7        8   9   10  11   12      13  14  15       16  17  18  19  20         21    22 */
-          | entity_name IS GENERIC yeslist '(' rem genlist  ')' ';' rem PORT yeslist '(' rem portlist ')' ';' rem END opt_entity oname ';' {
-		printf("done with entity2 %s\n", $entity_name->str.c_str());
+	} | entity_name IS GENERIC yeslist '(' rem genlist  ')' ';' rem PORT yeslist '(' rem portlist ')' ';' rem END opt_entity oname ';' {
 		$entity = $entity_name;
 		add_portlist_wires($entity, $portlist);
 
