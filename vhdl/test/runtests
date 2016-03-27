@@ -1,0 +1,34 @@
+#!/bin/bash
+
+cleanup_ast() {
+    AST=$1
+    PRE_REGEX='^Dumping .*AST before simplification:$'
+    POST_REGEX='^--- END OF AST DUMP ---$'
+    cat ${AST} | egrep -A 1000000 "${PRE_REGEX}" | egrep -B 1000000 "${POST_REGEX}" | egrep -v "(${PRE_REGEX})|(${POST_REGEX})" > ${AST}.cleaned
+    mv ${AST}.cleaned ${AST}
+    sed -i -re 's/\[(0x[0-9a-f]+)]/[0xPointer]/' ${AST}
+}
+
+
+RETVAL=0
+
+for V in *.vhd; do
+    BASENAME=$(basename $V .vhd)
+    echo test: ${BASENAME}
+    AST=${BASENAME}.ast
+    yosys -m /home/seb/fpga/yosys-plugins/vhdl/vhdl.so -p "read_vhdl -dump_ast1 $V" > ${AST}
+    cleanup_ast ${AST}
+    if ! diff -u ${AST}-expected ${AST}; then
+        echo "error: ${AST} does not match expected"
+        RETVAL=1
+    else
+        rm ${AST}
+    fi
+done
+
+if [ ${RETVAL} == 0 ]; then
+    echo "all tests pass"
+fi
+
+exit ${RETVAL}
+

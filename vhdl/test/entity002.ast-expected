@@ -1,0 +1,7 @@
+    AST_MODULE <entity002.vhd:1> [0xPointer] str='\e1'
+      AST_WIRE <entity002.vhd:6> [0xPointer] str='\a' input port=1
+      AST_WIRE <entity002.vhd:6> [0xPointer] str='\b' output port=2
+      AST_WIRE <entity002.vhd:6> [0xPointer] str='\c' output port=3
+      AST_WIRE <entity002.vhd:6> [0xPointer] str='\d' output port=4
+      AST_WIRE <entity002.vhd:6> [0xPointer] str='\e' input port=5
+      AST_WIRE <entity002.vhd:6> [0xPointer] str='\f' input port=6
