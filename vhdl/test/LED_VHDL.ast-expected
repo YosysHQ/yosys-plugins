@@ -1,0 +1,157 @@
+    AST_MODULE <LED_VHDL.vhd:27> [0xPointer] str='\LED_VHDL'
+      AST_WIRE <LED_VHDL.vhd:36> [0xPointer] str='\clk' input port=1
+      AST_WIRE <LED_VHDL.vhd:36> [0xPointer] str='\LED1' output port=2
+      AST_WIRE <LED_VHDL.vhd:36> [0xPointer] str='\LED2' output port=3
+      AST_WIRE <LED_VHDL.vhd:36> [0xPointer] str='\LED3' output port=4
+      AST_WIRE <LED_VHDL.vhd:36> [0xPointer] str='\LED4' output port=5
+      AST_WIRE <LED_VHDL.vhd:36> [0xPointer] str='\LED5' output port=6
+      AST_WIRE <LED_VHDL.vhd:36> [0xPointer] str='\LED6' output port=7
+      AST_WIRE <LED_VHDL.vhd:36> [0xPointer] str='\LED7' output port=8
+      AST_WIRE <LED_VHDL.vhd:36> [0xPointer] str='\LED8' output port=9
+      AST_WIRE <LED_VHDL.vhd:42> [0xPointer] str='\div_cntr1'
+        AST_RANGE <LED_VHDL.vhd:42> [0xPointer]
+          AST_CONSTANT <LED_VHDL.vhd:42> [0xPointer] bits='00000000000000000000000000001111'(32) range=[31:0] int=15
+          AST_CONSTANT <LED_VHDL.vhd:42> [0xPointer] bits='00000000000000000000000000000000'(32) range=[31:0]
+      AST_INITIAL <LED_VHDL.vhd:42> [0xPointer]
+        AST_ASSIGN_LE <LED_VHDL.vhd:42> [0xPointer]
+          AST_IDENTIFIER <LED_VHDL.vhd:42> [0xPointer] str='\div_cntr1'
+          AST_CONSTANT <LED_VHDL.vhd:41> [0xPointer] bits='0'(1) range=[0:0]
+      AST_WIRE <LED_VHDL.vhd:43> [0xPointer] str='\div_cntr2'
+        AST_RANGE <LED_VHDL.vhd:43> [0xPointer]
+          AST_CONSTANT <LED_VHDL.vhd:43> [0xPointer] bits='00000000000000000000000000000110'(32) range=[31:0] int=6
+          AST_CONSTANT <LED_VHDL.vhd:43> [0xPointer] bits='00000000000000000000000000000000'(32) range=[31:0]
+      AST_INITIAL <LED_VHDL.vhd:43> [0xPointer]
+        AST_ASSIGN_LE <LED_VHDL.vhd:43> [0xPointer]
+          AST_IDENTIFIER <LED_VHDL.vhd:43> [0xPointer] str='\div_cntr2'
+          AST_CONSTANT <LED_VHDL.vhd:42> [0xPointer] bits='0'(1) range=[0:0]
+      AST_WIRE <LED_VHDL.vhd:44> [0xPointer] str='\dec_cntr'
+      AST_INITIAL <LED_VHDL.vhd:44> [0xPointer]
+        AST_ASSIGN_LE <LED_VHDL.vhd:44> [0xPointer]
+          AST_IDENTIFIER <LED_VHDL.vhd:44> [0xPointer] str='\dec_cntr'
+          AST_CONSTANT <LED_VHDL.vhd:43> [0xPointer] bits='0'(1) range=[0:0]
+      AST_WIRE <LED_VHDL.vhd:46> [0xPointer] str='\half_sec_pulse'
+      AST_INITIAL <LED_VHDL.vhd:46> [0xPointer]
+        AST_ASSIGN_LE <LED_VHDL.vhd:46> [0xPointer]
+          AST_IDENTIFIER <LED_VHDL.vhd:46> [0xPointer] str='\half_sec_pulse'
+          AST_CONSTANT <LED_VHDL.vhd:44> [0xPointer] bits='0'(1) range=[0:0]
+      AST_ALWAYS <LED_VHDL.vhd:80> [0xPointer]
+        AST_POSEDGE <LED_VHDL.vhd:50> [0xPointer]
+          AST_IDENTIFIER <LED_VHDL.vhd:50> [0xPointer] str='\clk'
+        AST_BLOCK <LED_VHDL.vhd:67> [0xPointer]
+          AST_ASSIGN_LE <LED_VHDL.vhd:67> [0xPointer]
+            AST_IDENTIFIER <LED_VHDL.vhd:51> [0xPointer] str='\div_cntr1'
+            AST_ADD <LED_VHDL.vhd:51> [0xPointer]
+              AST_IDENTIFIER <LED_VHDL.vhd:51> [0xPointer] str='\div_cntr1'
+              AST_CONSTANT <LED_VHDL.vhd:51> [0xPointer] bits='00000000000000000000000000000001'(32) range=[31:0] int=1
+          AST_CASE <LED_VHDL.vhd:67> [0xPointer]
+            AST_REDUCE_BOOL <LED_VHDL.vhd:67> [0xPointer]
+              AST_EQ <LED_VHDL.vhd:52> [0xPointer]
+                AST_IDENTIFIER <LED_VHDL.vhd:52> [0xPointer] str='\div_cntr1'
+                AST_CONSTANT <LED_VHDL.vhd:52> [0xPointer] bits='00000000000000000000000000000000'(32) range=[31:0]
+            AST_COND <LED_VHDL.vhd:67> [0xPointer]
+              AST_CONSTANT <LED_VHDL.vhd:67> [0xPointer] bits='00000000000000000000000000000001'(32) range=[31:0] int=1
+              AST_BLOCK <LED_VHDL.vhd:59> [0xPointer]
+                AST_CASE <LED_VHDL.vhd:59> [0xPointer]
+                  AST_REDUCE_BOOL <LED_VHDL.vhd:59> [0xPointer]
+                    AST_EQ <LED_VHDL.vhd:53> [0xPointer]
+                      AST_IDENTIFIER <LED_VHDL.vhd:53> [0xPointer] str='\div_cntr2'
+                      AST_CONSTANT <LED_VHDL.vhd:53> [0xPointer] bits='00000000000000000000000001011011'(32) range=[31:0] int=91
+                  AST_COND <LED_VHDL.vhd:59> [0xPointer]
+                    AST_CONSTANT <LED_VHDL.vhd:59> [0xPointer] bits='00000000000000000000000000000001'(32) range=[31:0] int=1
+                    AST_BLOCK <LED_VHDL.vhd:56> [0xPointer]
+                      AST_ASSIGN_LE <LED_VHDL.vhd:56> [0xPointer]
+                        AST_IDENTIFIER <LED_VHDL.vhd:54> [0xPointer] str='\div_cntr2'
+                        AST_CONSTANT <LED_VHDL.vhd:54> [0xPointer] bits='0'(1) range=[0:0]
+                      AST_ASSIGN_LE <LED_VHDL.vhd:56> [0xPointer]
+                        AST_IDENTIFIER <LED_VHDL.vhd:55> [0xPointer] str='\half_sec_pulse'
+                        AST_CONSTANT <LED_VHDL.vhd:55> [0xPointer] bits='1'(1) range=[0:0] int=1
+                  AST_COND <LED_VHDL.vhd:58> [0xPointer]
+                    AST_DEFAULT <LED_VHDL.vhd:58> [0xPointer]
+                    AST_BLOCK <LED_VHDL.vhd:58> [0xPointer]
+                      AST_ASSIGN_LE <LED_VHDL.vhd:58> [0xPointer]
+                        AST_IDENTIFIER <LED_VHDL.vhd:57> [0xPointer] str='\div_cntr2'
+                        AST_ADD <LED_VHDL.vhd:57> [0xPointer]
+                          AST_IDENTIFIER <LED_VHDL.vhd:57> [0xPointer] str='\div_cntr2'
+                          AST_CONSTANT <LED_VHDL.vhd:57> [0xPointer] bits='00000000000000000000000000000001'(32) range=[31:0] int=1
+            AST_COND <LED_VHDL.vhd:61> [0xPointer]
+              AST_DEFAULT <LED_VHDL.vhd:61> [0xPointer]
+              AST_BLOCK <LED_VHDL.vhd:61> [0xPointer]
+                AST_ASSIGN_LE <LED_VHDL.vhd:61> [0xPointer]
+                  AST_IDENTIFIER <LED_VHDL.vhd:60> [0xPointer] str='\half_sec_pulse'
+                  AST_CONSTANT <LED_VHDL.vhd:60> [0xPointer] bits='0'(1) range=[0:0]
+          AST_CASE <LED_VHDL.vhd:67> [0xPointer]
+            AST_REDUCE_BOOL <LED_VHDL.vhd:67> [0xPointer]
+              AST_EQ <LED_VHDL.vhd:63> [0xPointer]
+                AST_IDENTIFIER <LED_VHDL.vhd:63> [0xPointer] str='\half_sec_pulse'
+                AST_CONSTANT <LED_VHDL.vhd:63> [0xPointer] bits='1'(1) range=[0:0] int=1
+            AST_COND <LED_VHDL.vhd:67> [0xPointer]
+              AST_CONSTANT <LED_VHDL.vhd:67> [0xPointer] bits='00000000000000000000000000000001'(32) range=[31:0] int=1
+              AST_BLOCK <LED_VHDL.vhd:65> [0xPointer]
+                AST_ASSIGN_LE <LED_VHDL.vhd:65> [0xPointer]
+                  AST_IDENTIFIER <LED_VHDL.vhd:64> [0xPointer] str='\dec_cntr'
+                  AST_BIT_NOT <LED_VHDL.vhd:64> [0xPointer]
+                    AST_IDENTIFIER <LED_VHDL.vhd:64> [0xPointer] str='\dec_cntr'
+      AST_ASSIGN <LED_VHDL.vhd:80> [0xPointer]
+        AST_IDENTIFIER <LED_VHDL.vhd:71> [0xPointer] str='\LED1'
+        AST_TERNARY <LED_VHDL.vhd:71> [0xPointer]
+          AST_EQ <LED_VHDL.vhd:71> [0xPointer]
+            AST_IDENTIFIER <LED_VHDL.vhd:71> [0xPointer] str='\dec_cntr'
+            AST_CONSTANT <LED_VHDL.vhd:71> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:71> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:71> [0xPointer] bits='0'(1) range=[0:0]
+      AST_ASSIGN <LED_VHDL.vhd:80> [0xPointer]
+        AST_IDENTIFIER <LED_VHDL.vhd:72> [0xPointer] str='\LED2'
+        AST_TERNARY <LED_VHDL.vhd:72> [0xPointer]
+          AST_EQ <LED_VHDL.vhd:72> [0xPointer]
+            AST_IDENTIFIER <LED_VHDL.vhd:72> [0xPointer] str='\dec_cntr'
+            AST_CONSTANT <LED_VHDL.vhd:72> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:72> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:72> [0xPointer] bits='0'(1) range=[0:0]
+      AST_ASSIGN <LED_VHDL.vhd:80> [0xPointer]
+        AST_IDENTIFIER <LED_VHDL.vhd:73> [0xPointer] str='\LED3'
+        AST_TERNARY <LED_VHDL.vhd:73> [0xPointer]
+          AST_EQ <LED_VHDL.vhd:73> [0xPointer]
+            AST_IDENTIFIER <LED_VHDL.vhd:73> [0xPointer] str='\dec_cntr'
+            AST_CONSTANT <LED_VHDL.vhd:73> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:73> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:73> [0xPointer] bits='0'(1) range=[0:0]
+      AST_ASSIGN <LED_VHDL.vhd:80> [0xPointer]
+        AST_IDENTIFIER <LED_VHDL.vhd:74> [0xPointer] str='\LED4'
+        AST_TERNARY <LED_VHDL.vhd:74> [0xPointer]
+          AST_EQ <LED_VHDL.vhd:74> [0xPointer]
+            AST_IDENTIFIER <LED_VHDL.vhd:74> [0xPointer] str='\dec_cntr'
+            AST_CONSTANT <LED_VHDL.vhd:74> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:74> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:74> [0xPointer] bits='0'(1) range=[0:0]
+      AST_ASSIGN <LED_VHDL.vhd:80> [0xPointer]
+        AST_IDENTIFIER <LED_VHDL.vhd:75> [0xPointer] str='\LED5'
+        AST_TERNARY <LED_VHDL.vhd:75> [0xPointer]
+          AST_EQ <LED_VHDL.vhd:75> [0xPointer]
+            AST_IDENTIFIER <LED_VHDL.vhd:75> [0xPointer] str='\dec_cntr'
+            AST_CONSTANT <LED_VHDL.vhd:75> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:75> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:75> [0xPointer] bits='0'(1) range=[0:0]
+      AST_ASSIGN <LED_VHDL.vhd:80> [0xPointer]
+        AST_IDENTIFIER <LED_VHDL.vhd:76> [0xPointer] str='\LED6'
+        AST_TERNARY <LED_VHDL.vhd:76> [0xPointer]
+          AST_EQ <LED_VHDL.vhd:76> [0xPointer]
+            AST_IDENTIFIER <LED_VHDL.vhd:76> [0xPointer] str='\dec_cntr'
+            AST_CONSTANT <LED_VHDL.vhd:76> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:76> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:76> [0xPointer] bits='0'(1) range=[0:0]
+      AST_ASSIGN <LED_VHDL.vhd:80> [0xPointer]
+        AST_IDENTIFIER <LED_VHDL.vhd:77> [0xPointer] str='\LED7'
+        AST_TERNARY <LED_VHDL.vhd:77> [0xPointer]
+          AST_EQ <LED_VHDL.vhd:77> [0xPointer]
+            AST_IDENTIFIER <LED_VHDL.vhd:77> [0xPointer] str='\dec_cntr'
+            AST_CONSTANT <LED_VHDL.vhd:77> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:77> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:77> [0xPointer] bits='0'(1) range=[0:0]
+      AST_ASSIGN <LED_VHDL.vhd:80> [0xPointer]
+        AST_IDENTIFIER <LED_VHDL.vhd:78> [0xPointer] str='\LED8'
+        AST_TERNARY <LED_VHDL.vhd:78> [0xPointer]
+          AST_EQ <LED_VHDL.vhd:78> [0xPointer]
+            AST_IDENTIFIER <LED_VHDL.vhd:78> [0xPointer] str='\dec_cntr'
+            AST_CONSTANT <LED_VHDL.vhd:78> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:78> [0xPointer] bits='1'(1) range=[0:0] int=1
+          AST_CONSTANT <LED_VHDL.vhd:78> [0xPointer] bits='0'(1) range=[0:0]
