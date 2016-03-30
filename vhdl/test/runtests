@@ -16,7 +16,7 @@ for V in *.vhd; do
     BASENAME=$(basename $V .vhd)
     echo test: ${BASENAME}
     AST=${BASENAME}.ast
-    yosys -m /home/seb/fpga/yosys-plugins/vhdl/vhdl.so -p "read_vhdl -dump_ast1 $V" > ${AST}
+    yosys -m ../vhdl.so -p "read_vhdl -dump_ast1 $V" > ${AST}
     cleanup_ast ${AST}
     if ! diff -u ${AST}-expected ${AST}; then
         echo "error: ${AST} does not match expected"
