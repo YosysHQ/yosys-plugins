@@ -169,6 +169,7 @@ struct VHDLFrontend : public Frontend {
 		bool flag_icells = false;
 		bool flag_ignore_redef = false;
 		bool flag_defer = false;
+		bool flag_dump_rtlil = false;
 		std::map<std::string, std::string> defines_map;
 		std::list<std::string> include_dirs;
 		std::list<std::string> attributes;
@@ -177,7 +178,7 @@ struct VHDLFrontend : public Frontend {
 		frontend_vhdl_yy_flex_debug = false;
 		default_nettype_wire = true;
 
-		log_header("Executing VHDL frontend.\n");
+		log_header(design,"Executing VHDL frontend.\n");
 
 		args.insert(args.begin()+1, vhdl_defaults.begin(), vhdl_defaults.end());
 
@@ -322,7 +323,7 @@ struct VHDLFrontend : public Frontend {
 		if (flag_nodpi)
 			error_on_dpi_function(current_ast);
 
-		AST::process(design, current_ast, flag_dump_ast1, flag_dump_ast2, flag_dump_vlog, flag_nolatches, flag_nomeminit, flag_nomem2reg, flag_mem2reg, flag_lib, flag_noopt, flag_icells, flag_ignore_redef, flag_defer, default_nettype_wire);
+		AST::process(design, current_ast, flag_dump_ast1, flag_dump_ast2, flag_dump_vlog, flag_dump_rtlil, flag_nolatches, flag_nomeminit, flag_nomem2reg, flag_mem2reg, flag_lib, flag_noopt, flag_icells, flag_ignore_redef, flag_defer, default_nettype_wire);
 
 		if (!flag_nopp)
 			delete lexin;
