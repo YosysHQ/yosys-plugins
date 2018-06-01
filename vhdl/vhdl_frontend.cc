@@ -120,9 +120,13 @@ struct VHDLFrontend : public Frontend {
 		log("    -icells\n");
 		log("        interpret cell types starting with '$' as internal cell types\n");
 		log("\n");
-		log("    -ignore_redef\n");
+		log("    -nooverwrite\n");
 		log("        ignore re-definitions of modules. (the default behavior is to\n");
-		log("        create an error message.)\n");
+		log("        create an error message if the existing module is not a black box\n");
+		log("        module, and overwrite the existing module otherwise.)\n");
+		log("\n");
+		log("    -overwrite\n");
+		log("        overwrite existing modules with the same name\n");
 		log("\n");
 		log("    -defer\n");
 		log("        only read the abstract syntax tree and defer actual compilation\n");
@@ -167,7 +171,8 @@ struct VHDLFrontend : public Frontend {
 		bool flag_lib = false;
 		bool flag_noopt = false;
 		bool flag_icells = false;
-		bool flag_ignore_redef = false;
+		bool flag_nooverwrite = false;
+		bool flag_overwrite = false;
 		bool flag_defer = false;
 		bool flag_dump_rtlil = false;
 		std::map<std::string, std::string> defines_map;
@@ -243,8 +248,12 @@ struct VHDLFrontend : public Frontend {
 				flag_icells = true;
 				continue;
 			}
-			if (arg == "-ignore_redef") {
-				flag_ignore_redef = true;
+			if (arg == "-ignore_redef" || arg == "-nooverwrite") {
+				flag_nooverwrite = true;
+				continue;
+			}
+			if (arg == "-overwrite") {
+				flag_overwrite = true;
 				continue;
 			}
 			if (arg == "-defer") {
@@ -323,7 +332,7 @@ struct VHDLFrontend : public Frontend {
 		if (flag_nodpi)
 			error_on_dpi_function(current_ast);
 
-		AST::process(design, current_ast, flag_dump_ast1, flag_dump_ast2, flag_dump_vlog, flag_dump_rtlil, flag_nolatches, flag_nomeminit, flag_nomem2reg, flag_mem2reg, flag_lib, flag_noopt, flag_icells, flag_ignore_redef, flag_defer, default_nettype_wire);
+		AST::process(design, current_ast, flag_dump_ast1, flag_dump_ast2, flag_dump_vlog, flag_dump_rtlil, flag_nolatches, flag_nomeminit, flag_nomem2reg, flag_mem2reg, flag_lib, flag_noopt, flag_icells, flag_nooverwrite, flag_overwrite, flag_defer, default_nettype_wire);
 
 		if (!flag_nopp)
 			delete lexin;
