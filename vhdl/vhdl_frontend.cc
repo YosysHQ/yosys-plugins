@@ -67,6 +67,12 @@ struct VHDLFrontend : public Frontend {
 		log("    -no_dump_ptr\n");
 		log("        do not include hex memory addresses in dump (easier to diff dumps)\n");
 		log("\n");
+		log("    -dump_vlog1\n");
+		log("        dump ast as Verilog code (before simplification)\n");
+		log("\n");
+		log("    -dump_vlog2\n");
+		log("        dump ast as Verilog code (after simplification)\n");
+		log("\n");
 		log("    -dump_vhdl\n");
 		log("        dump ast as VHDL code (after simplification)\n");
 		log("\n");
@@ -113,8 +119,16 @@ struct VHDLFrontend : public Frontend {
 		log("    -nodpi\n");
 		log("        disable DPI-C support\n");
 		log("\n");
+		log("    -noblackbox\n");
+		log("        do not automatically add a (* blackbox *) attribute to an\n");
+		log("        empty module.\n");
+		log("\n");
 		log("    -lib\n");
 		log("        only create empty blackbox modules. This implies -DBLACKBOX.\n");
+		log("\n");
+		log("    -nowb\n");
+		log("        delete (* whitebox *) and (* lib_whitebox *) attributes from\n");
+		log("        all modules.\n");
 		log("\n");
 		log("    -noopt\n");
 		log("        don't perform basic optimizations (such as const folding) in the\n");
@@ -122,6 +136,9 @@ struct VHDLFrontend : public Frontend {
 		log("\n");
 		log("    -icells\n");
 		log("        interpret cell types starting with '$' as internal cell types\n");
+		log("\n");
+		log("    -pwires\n");
+		log("        add a wire for each module parameter\n");
 		log("\n");
 		log("    -nooverwrite\n");
 		log("        ignore re-definitions of modules. (the default behavior is to\n");
@@ -164,7 +181,8 @@ struct VHDLFrontend : public Frontend {
 		bool flag_dump_ast1 = false;
 		bool flag_dump_ast2 = false;
 		bool flag_no_dump_ptr = false;
-		bool flag_dump_vlog = false;
+		bool flag_dump_vlog1 = false;
+		bool flag_dump_vlog2 = false;
 		bool flag_nolatches = false;
 		bool flag_nomeminit = false;
 		bool flag_nomem2reg = false;
@@ -172,9 +190,12 @@ struct VHDLFrontend : public Frontend {
 		bool flag_ppdump = false;
 		bool flag_nopp = false;
 		bool flag_nodpi = false;
+		bool flag_noblackbox = false;
 		bool flag_lib = false;
+		bool flag_nowb = false;
 		bool flag_noopt = false;
 		bool flag_icells = false;
+		bool flag_pwires = false;
 		bool flag_nooverwrite = false;
 		bool flag_overwrite = false;
 		bool flag_defer = false;
@@ -206,8 +227,12 @@ struct VHDLFrontend : public Frontend {
 				flag_no_dump_ptr = true;
 				continue;
 			}
-			if (arg == "-dump_vlog") {
-				flag_dump_vlog = true;
+			if (arg == "-dump_vlog1") {
+				flag_dump_vlog1 = true;
+				continue;
+			}
+			if (arg == "-dump_vlog2") {
+				flag_dump_vlog2 = true;
 				continue;
 			}
 			if (arg == "-yydebug") {
@@ -242,10 +267,18 @@ struct VHDLFrontend : public Frontend {
 			if (arg == "-nodpi") {
 				flag_nodpi = true;
 				continue;
+			}			
+			if (arg == "-noblackbox") {
+				flag_noblackbox = true;
+				continue;
 			}
 			if (arg == "-lib") {
 				flag_lib = true;
 				defines_map["BLACKBOX"] = string();
+				continue;
+			}
+			if (arg == "-nowb") {
+				flag_nowb = true;
 				continue;
 			}
 			if (arg == "-noopt") {
@@ -254,6 +287,10 @@ struct VHDLFrontend : public Frontend {
 			}
 			if (arg == "-icells") {
 				flag_icells = true;
+				continue;
+			}
+			if (arg == "-pwires") {
+				flag_pwires = true;
 				continue;
 			}
 			if (arg == "-ignore_redef" || arg == "-nooverwrite") {
@@ -340,7 +377,7 @@ struct VHDLFrontend : public Frontend {
 		if (flag_nodpi)
 			error_on_dpi_function(current_ast);
 
-		AST::process(design, current_ast, flag_dump_ast1, flag_dump_ast2, flag_no_dump_ptr, flag_dump_vlog, flag_dump_rtlil, flag_nolatches, flag_nomeminit, flag_nomem2reg, flag_mem2reg, flag_lib, flag_noopt, flag_icells, flag_nooverwrite, flag_overwrite, flag_defer, default_nettype_wire);
+		AST::process(design, current_ast, flag_dump_ast1, flag_dump_ast2, flag_no_dump_ptr, flag_dump_vlog1, flag_dump_vlog2, flag_dump_rtlil, flag_nolatches, flag_nomeminit, flag_nomem2reg, flag_mem2reg, flag_noblackbox, flag_lib, flag_nowb, flag_noopt, flag_icells, flag_pwires, flag_nooverwrite, flag_overwrite, flag_defer, default_nettype_wire);
 
 		if (!flag_nopp)
 			delete lexin;
